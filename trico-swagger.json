@@ -1,0 +1,191 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Tri-College course guide JSON schema specification",
+    "version": "1.0-alpha",
+    "title": "Tri-College Course Guide JSON Specification",
+    "contact": {
+      "email": "webteam@swarthmore.edu"
+    }
+  },
+  "host": "trico-course-guide",
+  "basePath": "/",
+  "paths": {
+    "/": {
+      "get": {
+        "description": "Return all courses",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "The listing of courses.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/course"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "course": {
+      "type": "object",
+      "properties": {
+        "course_id": {
+          "type": "string",
+          "description": "Unique identifier for the course within a semester"
+        },
+        "college": {
+          "type": "string",
+          "description": "The college that is offering the course",
+          "enum": [
+            "bryn_mawr",
+            "haverford",
+            "swarthmore"
+          ]
+        },
+        "semester": {
+          "type": "string",
+          "description": "The semester the course is offered",
+          "pattern": "(fall|spring)_[0-9]{4}"
+        },
+        "reg_id": {
+          "type": "string",
+          "description": "The ID of the course as shown in the course catalog"
+        },
+        "department": {
+          "type": "string",
+          "description": "Name of the department offering the course"
+        },
+        "number": {
+          "type": "string",
+          "description": "The course number as listed in the course catalog"
+        },
+        "section": {
+          "type": "string",
+          "description": "The section of this occurrence of a particular course"
+        },
+        "title": {
+          "type": "string",
+          "description": "The title of the course as it appears in the course catalog"
+        },
+        "credits": {
+          "type": "number",
+          "description": "Number of credit hours"
+        },
+        "location": {
+          "type": "string",
+          "description": "Building and room information"
+        },
+        "times": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/time"
+          }
+        },
+        "instructors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/instructor"
+          }
+        },
+        "misc": {
+          "type": "string",
+          "description": "Additional course information"
+        },
+        "additonal": {
+          "type": "string",
+          "description": "Information about the course, such as description and prerequisites"
+        },
+        "urls": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/url"
+          }
+        }
+      },
+      "required": [
+        "course_id",
+        "college",
+        "semester",
+        "reg_id",
+        "department",
+        "title"
+      ]
+    },
+    "time": {
+      "type": "object",
+      "properties": {
+        "day": {
+          "type": "string",
+          "description": "Day of the week",
+          "enum": [
+            "M",
+            "T",
+            "W",
+            "TH",
+            "F",
+            "SA",
+            "SU"
+          ]
+        },
+        "start_time": {
+          "type": "string",
+          "description": "Valid start time for the course",
+          "pattern": "(0|1)[0-9]{1}:[0-5]{1}[0-9]{1}(am|pm)"
+        },
+        "end_time": {
+          "type": "string",
+          "description": "Valid end time for the course",
+          "pattern": "(0|1)[0-9]{1}:[0-5]{1}[0-9]{1}(am|pm)"
+        }
+      },
+      "required": [
+        "day",
+        "start_time"
+      ]
+    },
+    "instructor": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The instructor's full name"
+        },
+        "email": {
+          "type": "string",
+          "description": "The instructor's email",
+          "pattern": ".+\\@.+\\..+"
+        }
+      },
+      "required": [
+        "name"
+      ]
+    },
+    "url": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "The type of URL this is (book list, additional info, etc.)"
+        },
+        "url": {
+          "type": "string",
+          "description": "The actual URL",
+          "pattern": "https?:\\/\\/\\S+\\.\\S+"
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the URL, to be used as link text"
+        }
+      },
+      "required": [
+        "url"
+      ]
+    }
+  }
+}
