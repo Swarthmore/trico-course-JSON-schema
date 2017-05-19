@@ -55,7 +55,9 @@
         SwaggerEditorStandalonePreset
       ]
     };
-    const swaggerUrl = 'https://raw.githubusercontent.com/Swarthmore/trico-course-JSON-schema/master/trico-swagger.json';
+    const gitHubUser = document.location.hostname.replace(/^([^\.]+).+$/, "$1");
+    const gitHubRepo = document.location.pathname.replace(/^\/([^\/]+).*$/, "$1");
+    const swaggerUrl = 'https://raw.githubusercontent.com/' + gitHubUser + '/' + gitHubRepo  + '/master/trico-swagger.json';
     if (localStorage.getItem("swagger-editor-content") === null){
       editorParams.url = swaggerUrl;
     } else {
